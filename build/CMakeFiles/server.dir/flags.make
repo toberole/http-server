@@ -6,5 +6,5 @@ CXX_DEFINES = -Dserver_EXPORTS
 
 CXX_INCLUDES = -I/home/zhouwei/code/cpp/server/include -I/home/zhouwei/code/cpp/server/third
 
-CXX_FLAGS = -fPIC
+CXX_FLAGS = -fPIC -std=gnu++11
 

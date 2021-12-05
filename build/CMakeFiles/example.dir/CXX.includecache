@@ -6,7 +6,31 @@
 
 #IncludeRegexTransform: 
 
-/home/zhouwei/code/cpp/server/example/main.cpp
+../include/HttpServer.h
+
+/home/zhouwei/code/cpp/server/src/HttpServer.cpp
+HttpServer.h
+/home/zhouwei/code/cpp/server/src/HttpServer.h
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+unistd.h
+-
+stdlib.h
+-
 stdio.h
+-
+string.h
+-
+netdb.h
+-
+errno.h
+-
+thread
 -
 

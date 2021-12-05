@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/zhouwei/code/cpp/server/include -I/home/zhouwei/code/cpp/server/third
 
-CXX_FLAGS = 
+CXX_FLAGS = -std=gnu++11
 

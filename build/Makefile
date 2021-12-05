@@ -185,6 +185,36 @@ example/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/example/main.cpp.s
 .PHONY : example/main.cpp.s
 
+src/HttpServer.o: src/HttpServer.cpp.o
+
+.PHONY : src/HttpServer.o
+
+# target to build an object file
+src/HttpServer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/HttpServer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/HttpServer.cpp.o
+.PHONY : src/HttpServer.cpp.o
+
+src/HttpServer.i: src/HttpServer.cpp.i
+
+.PHONY : src/HttpServer.i
+
+# target to preprocess a source file
+src/HttpServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/HttpServer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/HttpServer.cpp.i
+.PHONY : src/HttpServer.cpp.i
+
+src/HttpServer.s: src/HttpServer.cpp.s
+
+.PHONY : src/HttpServer.s
+
+# target to generate assembly for a file
+src/HttpServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/HttpServer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/HttpServer.cpp.s
+.PHONY : src/HttpServer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -198,6 +228,9 @@ help:
 	@echo "... example/main.o"
 	@echo "... example/main.i"
 	@echo "... example/main.s"
+	@echo "... src/HttpServer.o"
+	@echo "... src/HttpServer.i"
+	@echo "... src/HttpServer.s"
 .PHONY : help
 
 

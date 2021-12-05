@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/server.dir/example/main.cpp.o"
+  "CMakeFiles/server.dir/src/HttpServer.cpp.o"
   "libserver.pdb"
   "libserver.so"
 )
