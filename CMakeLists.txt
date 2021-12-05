@@ -2,6 +2,8 @@
 
 project("server")
 
+set(CMAKE_CXX_STANDARD 11)
+
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/third)
 
