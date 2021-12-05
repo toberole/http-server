@@ -215,6 +215,66 @@ src/HttpServer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/HttpServer.cpp.s
 .PHONY : src/HttpServer.cpp.s
 
+src/http_msg_handler.o: src/http_msg_handler.c.o
+
+.PHONY : src/http_msg_handler.o
+
+# target to build an object file
+src/http_msg_handler.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/http_msg_handler.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/http_msg_handler.c.o
+.PHONY : src/http_msg_handler.c.o
+
+src/http_msg_handler.i: src/http_msg_handler.c.i
+
+.PHONY : src/http_msg_handler.i
+
+# target to preprocess a source file
+src/http_msg_handler.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/http_msg_handler.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/http_msg_handler.c.i
+.PHONY : src/http_msg_handler.c.i
+
+src/http_msg_handler.s: src/http_msg_handler.c.s
+
+.PHONY : src/http_msg_handler.s
+
+# target to generate assembly for a file
+src/http_msg_handler.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/src/http_msg_handler.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/src/http_msg_handler.c.s
+.PHONY : src/http_msg_handler.c.s
+
+third/parser/http_parser.o: third/parser/http_parser.c.o
+
+.PHONY : third/parser/http_parser.o
+
+# target to build an object file
+third/parser/http_parser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/third/parser/http_parser.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/third/parser/http_parser.c.o
+.PHONY : third/parser/http_parser.c.o
+
+third/parser/http_parser.i: third/parser/http_parser.c.i
+
+.PHONY : third/parser/http_parser.i
+
+# target to preprocess a source file
+third/parser/http_parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/third/parser/http_parser.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/third/parser/http_parser.c.i
+.PHONY : third/parser/http_parser.c.i
+
+third/parser/http_parser.s: third/parser/http_parser.c.s
+
+.PHONY : third/parser/http_parser.s
+
+# target to generate assembly for a file
+third/parser/http_parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/third/parser/http_parser.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/third/parser/http_parser.c.s
+.PHONY : third/parser/http_parser.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -231,6 +291,12 @@ help:
 	@echo "... src/HttpServer.o"
 	@echo "... src/HttpServer.i"
 	@echo "... src/HttpServer.s"
+	@echo "... src/http_msg_handler.o"
+	@echo "... src/http_msg_handler.i"
+	@echo "... src/http_msg_handler.s"
+	@echo "... third/parser/http_parser.o"
+	@echo "... third/parser/http_parser.i"
+	@echo "... third/parser/http_parser.s"
 .PHONY : help
 
 

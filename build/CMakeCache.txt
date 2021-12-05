@@ -212,6 +212,9 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //Value Computed by CMake
 server_BINARY_DIR:STATIC=/home/zhouwei/code/cpp/server/build
 
+//Dependencies for the target
+server_LIB_DEPENDS:STATIC=general;pthread;
+
 //Value Computed by CMake
 server_SOURCE_DIR:STATIC=/home/zhouwei/code/cpp/server
 

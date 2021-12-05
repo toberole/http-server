@@ -8,6 +8,30 @@
 
 ../include/HttpServer.h
 
+../include/http_msg.h
+http_parser.h
+../include/http_parser.h
+
+../include/http_msg_handler.h
+http_parser.h
+../include/http_parser.h
+
+../include/http_parser_hook.h
+
+../third/parser/http_parser.h
+stddef.h
+-
+BaseTsd.h
+-
+stdint.h
+-
+
+/home/zhouwei/code/cpp/server/example/main.cpp
+stdio.h
+-
+HttpServer.h
+/home/zhouwei/code/cpp/server/example/HttpServer.h
+
 /home/zhouwei/code/cpp/server/src/HttpServer.cpp
 HttpServer.h
 /home/zhouwei/code/cpp/server/src/HttpServer.h
@@ -33,4 +57,12 @@ errno.h
 -
 thread
 -
+http_parser.h
+/home/zhouwei/code/cpp/server/src/http_parser.h
+http_msg.h
+/home/zhouwei/code/cpp/server/src/http_msg.h
+http_msg_handler.h
+/home/zhouwei/code/cpp/server/src/http_msg_handler.h
+http_parser_hook.h
+/home/zhouwei/code/cpp/server/src/http_parser_hook.h
 

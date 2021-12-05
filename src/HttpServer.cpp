@@ -12,6 +12,11 @@
 #include <errno.h>
 #include <thread>
 
+#include "http_parser.h"
+#include "http_msg.h"
+#include "http_msg_handler.h"
+#include "http_parser_hook.h"
+
 /**
      * int socket(int family, int type, int protocol); //返回socket描述字
      * family：协议族。常用的协议族有，AF_INET(IPV4)、AF_INET6(IPV6)、AF_LOCAL（或称AF_UNIX，Unix域socket）、AF_ROUTE等。
@@ -43,6 +48,7 @@
  * client_addr：结果参数，用来接受一个返回值，这返回值指定客户端的地址，不需要可设置NULL。
  * addr_len：client_addr的长度
  */
+
 HttpServer::HttpServer(int port) : port(port)
 {
 }
@@ -80,7 +86,6 @@ void HttpServer::start()
         }
 
         int client_fd;
-        uint8_t buff[1024] = {0};
         while (isStop != 1)
         {
             client_fd = accept(server_fd, nullptr, nullptr);
@@ -90,16 +95,57 @@ void HttpServer::start()
                 continue;
             }
 
-            res = recv(client_fd, (void *)buff, 1024, 0);
-            if (res <= 0)
-            {
-                printf("recv res: %d,error: %s\n", res, strerror(errno));
-                close(client_fd);
-                client_fd = 0;
-                continue;
-            }
+            std::thread client_thead = std::thread(
+                [client_fd]()
+                {
+                    uint8_t buff[1024] = {0};
+                    int ret = 0;
 
-            printf("buf: %s\n", buff);
+                    http_parser *parser = (http_parser *)malloc(sizeof(http_parser));
+                    http_msg *httpMsg = (http_msg *)malloc(sizeof(http_msg));
+                    http_parser_hook *hook = (http_parser_hook *)malloc(sizeof(http_parser_hook));
+                    hook->fd = client_fd;
+                    hook->data = httpMsg;
+                    hook->on_message_complete_cb = [](http_msg *msg) {
+
+                    };
+                    parser->data = hook;
+
+                    parser_init(parser, HTTP_REQUEST);
+
+                    http_parser_settings *settings = (http_parser_settings *)malloc(sizeof(http_parser_settings));
+                    settings->on_message_begin = message_begin_cb;
+                    settings->on_url = request_url_cb;
+                    settings->on_status = response_status_cb;
+                    settings->on_header_field = header_field_cb;
+                    settings->on_header_value = header_value_cb;
+                    settings->on_headers_complete = headers_complete_cb;
+                    settings->on_body = body_cb;
+                    settings->on_message_complete = message_complete_cb;
+
+                    while (ret = recv(client_fd, (void *)buff, 1024, 0))
+                    {
+                        int parse_ret = parse(parser, settings, reinterpret_cast<const char *>(buff), ret);
+                        printf("buf: %s,parse_ret: %d\n", buff, parse_ret);
+                    }
+
+                    if (ret <= 0)
+                    {
+                        printf("recv ret: %d,error: %s\n", ret, strerror(errno));
+                        close(client_fd);
+                    }
+
+                    free(hook);
+                    hook = nullptr;
+                    free(httpMsg);
+                    httpMsg = nullptr;
+                    free(parser);
+                    parser = nullptr;
+                    free(settings);
+                    settings = nullptr;
+                });
+
+            client_thead.detach();
         }
 
     } while (0);
