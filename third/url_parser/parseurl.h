@@ -1,5 +1,5 @@
-#ifndef _PARSEURL_H_
-#define _PARSEURL_H_
+#pragma once
+
 /*  RTMPDump
  *  Copyright (C) 2009 Andrej Stepanchuk
  *  Copyright (C) 2009 Howard Chu
@@ -24,9 +24,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 int hex2bin(char *str, char **hex);
 int ParseUrl(char *url, int *protocol, char **host, unsigned int *port, char **playpath, char **app);
 char *ParsePlaypath(const char *playpath);
+
 #ifdef __cplusplus
 }
 #endif

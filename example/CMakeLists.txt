@@ -4,7 +4,7 @@ project("example")
 
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(${CMAKE_CURRENT_LIST_DIR})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/server/include)
 
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR} SRC_FILES)
 

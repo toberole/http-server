@@ -27,7 +27,7 @@
 
 #define MAX_PRINT_LEN	2048
 
-extern int debuglevel;
+int debuglevel;
 
 static int neednl;
 

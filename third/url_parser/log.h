@@ -42,6 +42,8 @@ extern "C" {
 #define LOGDEBUG		4
 #define LOGALL		5
 
+extern int debuglevel;
+
 void LogSetOutput(FILE *file);
 void LogPrintf(const char *format, ...);
 void LogStatus(const char *format, ...);
