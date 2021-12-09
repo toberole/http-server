@@ -88,11 +88,34 @@ void HttpServer::start()
         int client_fd;
         while (isStop != 1)
         {
-            client_fd = accept(server_fd, nullptr, nullptr);
+            sockaddr_storage storage;
+            socklen_t sock_len = sizeof(storage);
+            client_fd = accept(server_fd, (sockaddr *)&storage, &sock_len);
             if (client_fd == -1)
             {
                 printf("accept res: %d,error: %s\n", client_fd, strerror(errno));
                 continue;
+            }
+            else
+            {
+                printf("...... welcome client start ......\n");
+
+                if (storage.ss_family == AF_INET)
+                {
+                    sockaddr_in *addr = (sockaddr_in *)&storage;
+                    char ip[INET_ADDRSTRLEN];
+                    inet_ntop(AF_INET, &addr->sin_addr, ip, sock_len);
+                    printf("client [%s:%d] \n", ip, ntohs(addr->sin_port));
+                }
+                else if (storage.ss_family == AF_INET6)
+                {
+                    sockaddr_in6 *addr = (sockaddr_in6 *)&storage;
+                    char ip[INET6_ADDRSTRLEN];
+                    inet_ntop(AF_INET6, &addr->sin6_addr, ip, sock_len);
+                    printf("client [%s:%d] \n", ip, ntohs(addr->sin6_port));
+                }
+
+                printf("...... welcome client end ......\n");
             }
 
             std::thread client_thead = std::thread(
@@ -116,7 +139,7 @@ void HttpServer::start()
                         s = "Content-Type: text/html;charset=utf-8\r\n";
                         send(h->fd, (void *)(s.c_str()), s.size(), 0);
                         std::string mm = "Hello Client ......";
-                        printf("data size: %d\n",mm.size());
+                        printf("data size: %d\n", mm.size());
 
                         s = "Content-Length: " + mm.size();
                         send(h->fd, (void *)(s.c_str()), s.size(), 0);
@@ -145,21 +168,25 @@ void HttpServer::start()
                     {
                         int parse_ret = parse(parser, settings, reinterpret_cast<const char *>(buff), ret);
                         printf("buf: %s,parse_ret: %d\n", buff, parse_ret);
-                        memset((void*)buff,0,1024);
+                        memset((void *)buff, 0, 1024);
                     }
 
                     if (ret <= 0)
                     {
                         printf("recv ret: %d,error: %s\n", ret, strerror(errno));
                         close(client_fd);
+                        client_fd = 0;
                     }
 
                     free(hook);
                     hook = nullptr;
+
                     free(httpMsg);
                     httpMsg = nullptr;
+
                     free(parser);
                     parser = nullptr;
+                    
                     free(settings);
                     settings = nullptr;
                 });
