@@ -111,9 +111,9 @@ void HttpServer::start()
                     {
                         printf("on_message_complete_cb\n");
                         http_parser_hook *h = (http_parser_hook *)(parser->data);
-                        std::string s = "HTTP/1.1 200 OK";
+                        std::string s = "HTTP/1.1 200 OK\r\n";
                         send(h->fd, (void *)(s.c_str()), s.size(), 0);
-                        s = "Content-Type: text/html;charset=utf-8";
+                        s = "Content-Type: text/html;charset=utf-8\r\n";
                         send(h->fd, (void *)(s.c_str()), s.size(), 0);
                         std::string mm = "Hello Client ......";
                         printf("data size: %d\n",mm.size());
@@ -124,6 +124,8 @@ void HttpServer::start()
                         send(h->fd, (void *)(s.c_str()), s.size(), 0);
                         send(h->fd, (void *)(mm.c_str()), mm.size(), 0);
                         close(h->fd);
+
+                        printf("write end ......\n");
                     };
                     parser->data = hook;
 
@@ -149,7 +151,7 @@ void HttpServer::start()
                     if (ret <= 0)
                     {
                         printf("recv ret: %d,error: %s\n", ret, strerror(errno));
-                        //close(client_fd);
+                        close(client_fd);
                     }
 
                     free(hook);
