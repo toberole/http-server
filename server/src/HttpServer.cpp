@@ -7,12 +7,12 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <netdb.h>
 #include <errno.h>
 #include <thread>
 
-#include "http_parser/http_parser.h"
+#include "http_parser.h"
 #include "http_msg.h"
 #include "http_msg_handler.h"
 #include "http_parser_hook.h"
@@ -106,8 +106,24 @@ void HttpServer::start()
                     http_parser_hook *hook = (http_parser_hook *)malloc(sizeof(http_parser_hook));
                     hook->fd = client_fd;
                     hook->data = httpMsg;
-                    hook->on_message_complete_cb = [](http_msg *msg) {
 
+                    hook->on_message_complete_cb = [](http_parser *parser)
+                    {
+                        printf("on_message_complete_cb\n");
+                        http_parser_hook *h = (http_parser_hook *)(parser->data);
+                        std::string s = "HTTP/1.1 200 OK";
+                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
+                        s = "Content-Type: text/html;charset=utf-8";
+                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
+                        std::string mm = "Hello Client ......";
+                        printf("data size: %d\n",mm.size());
+
+                        s = "Content-Length: " + mm.size();
+                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
+                        s = "\r\n";
+                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
+                        send(h->fd, (void *)(mm.c_str()), mm.size(), 0);
+                        close(h->fd);
                     };
                     parser->data = hook;
 
@@ -123,16 +139,17 @@ void HttpServer::start()
                     settings->on_body = body_cb;
                     settings->on_message_complete = message_complete_cb;
 
-                    while (ret = recv(client_fd, (void *)buff, 1024, 0))
+                    while ((ret = recv(client_fd, (void *)buff, 1024, 0)) > 0)
                     {
                         int parse_ret = parse(parser, settings, reinterpret_cast<const char *>(buff), ret);
                         printf("buf: %s,parse_ret: %d\n", buff, parse_ret);
+                        memset((void*)buff,0,1024);
                     }
 
                     if (ret <= 0)
                     {
                         printf("recv ret: %d,error: %s\n", ret, strerror(errno));
-                        close(client_fd);
+                        //close(client_fd);
                     }
 
                     free(hook);

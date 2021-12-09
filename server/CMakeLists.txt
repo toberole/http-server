@@ -4,14 +4,19 @@ project("server")
 
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(${CMAKE_CURRENT_LIST_DIR}/server/include)
+message(${CMAKE_CURRENT_LIST_DIR})
 
-aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/server/src SRC_FILES)
+include_directories(${CMAKE_SOURCE_DIR}/third/http_parser)
+include_directories(${CMAKE_SOURCE_DIR}/third/url_parser)
 
-add_library(server SHARED ${SRC_FILES})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
-target_link_libraries(server 
+aux_source_directory(${CMAKE_CURRENT_LIST_DIR}/src SERVER_SRC_FILES)
+
+add_library(http_server SHARED ${SERVER_SRC_FILES})
+
+target_link_libraries(http_server 
     pthread
-    http_parser
     url_parser
+    http_parser
 )

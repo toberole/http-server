@@ -5,7 +5,8 @@
 #define MAX_ELEMENT_SIZE (1024 * 4)
 #define MAX_HEADERS 32
 #define MAX_CHUNKS 128
-struct http_msg
+
+typedef struct http_msg
 {
 	const char *name; // for debugging purposes
 	const char *raw;
@@ -47,4 +48,4 @@ struct http_msg
 	int status_cb_called;
 	int message_complete_on_eof;
 	int body_is_final;
-};
+}http_msg;
