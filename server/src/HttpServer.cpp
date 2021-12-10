@@ -175,7 +175,6 @@ void HttpServer::start()
                     {
                         printf("recv ret: %d,error: %s\n", ret, strerror(errno));
                         close(client_fd);
-                        client_fd = 0;
                     }
 
                     free(hook);
