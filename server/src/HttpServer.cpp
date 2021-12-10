@@ -49,18 +49,14 @@
  * addr_len：client_addr的长度
  */
 
-HttpServer::HttpServer(int port) : port(port)
-{
+HttpServer::HttpServer(int port) : port(port) {
 }
 
-void HttpServer::start()
-{
+void HttpServer::start() {
     int res = -1;
-    do
-    {
+    do {
         server_fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if (server_fd == -1)
-        {
+        if (server_fd == -1) {
             printf("create socker ret: %d,error: %s\n", server_fd, strerror(errno));
             break;
         }
@@ -71,45 +67,36 @@ void HttpServer::start()
         server_addr.sin_port = htons(port);
         server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-        res = bind(server_fd, (struct sockaddr *)(&server_addr), sizeof(struct sockaddr));
-        if (res != 0)
-        {
+        res = bind(server_fd, (struct sockaddr *) (&server_addr), sizeof(struct sockaddr));
+        if (res != 0) {
             printf("bind res: %d,error: %s\n", res, strerror(errno));
             break;
         }
 
         res = listen(server_fd, 1024);
-        if (res == -1)
-        {
+        if (res == -1) {
             printf("listen res: %d,error: %s\n", res, strerror(errno));
             break;
         }
 
         int client_fd;
-        while (isStop != 1)
-        {
+        while (isStop != 1) {
             sockaddr_storage storage;
             socklen_t sock_len = sizeof(storage);
-            client_fd = accept(server_fd, (sockaddr *)&storage, &sock_len);
-            if (client_fd == -1)
-            {
+            client_fd = accept(server_fd, (sockaddr *) &storage, &sock_len);
+            if (client_fd == -1) {
                 printf("accept res: %d,error: %s\n", client_fd, strerror(errno));
                 continue;
-            }
-            else
-            {
+            } else {
                 printf("...... welcome client start ......\n");
 
-                if (storage.ss_family == AF_INET)
-                {
-                    sockaddr_in *addr = (sockaddr_in *)&storage;
+                if (storage.ss_family == AF_INET) {
+                    sockaddr_in *addr = (sockaddr_in *) &storage;
                     char ip[INET_ADDRSTRLEN];
                     inet_ntop(AF_INET, &addr->sin_addr, ip, sock_len);
                     printf("client [%s:%d] \n", ip, ntohs(addr->sin_port));
-                }
-                else if (storage.ss_family == AF_INET6)
-                {
-                    sockaddr_in6 *addr = (sockaddr_in6 *)&storage;
+                } else if (storage.ss_family == AF_INET6) {
+                    sockaddr_in6 *addr = (sockaddr_in6 *) &storage;
                     char ip[INET6_ADDRSTRLEN];
                     inet_ntop(AF_INET6, &addr->sin6_addr, ip, sock_len);
                     printf("client [%s:%d] \n", ip, ntohs(addr->sin6_port));
@@ -119,76 +106,75 @@ void HttpServer::start()
             }
 
             std::thread client_thead = std::thread(
-                [client_fd]()
-                {
-                    uint8_t buff[1024] = {0};
-                    int ret = 0;
+                    [client_fd]() {
+                        uint8_t buff[1024] = {0};
+                        int ret = 0;
 
-                    http_parser *parser = (http_parser *)malloc(sizeof(http_parser));
-                    http_msg *httpMsg = (http_msg *)malloc(sizeof(http_msg));
-                    http_parser_hook *hook = (http_parser_hook *)malloc(sizeof(http_parser_hook));
-                    hook->fd = client_fd;
-                    hook->data = httpMsg;
+                        http_parser *parser = (http_parser *) malloc(sizeof(http_parser));
+                        http_msg *httpMsg = (http_msg *) malloc(sizeof(http_msg));
+                        http_parser_hook *hook = (http_parser_hook *) malloc(sizeof(http_parser_hook));
+                        hook->fd = client_fd;
+                        hook->data = httpMsg;
 
-                    hook->on_message_complete_cb = [](http_parser *parser)
-                    {
-                        printf("on_message_complete_cb\n");
-                        http_parser_hook *h = (http_parser_hook *)(parser->data);
-                        std::string s = "HTTP/1.1 200 OK\r\n";
-                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
-                        s = "Content-Type: text/html;charset=utf-8\r\n";
-                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
-                        std::string mm = "Hello Client ......";
-                        printf("data size: %d\n", mm.size());
+                        hook->on_message_complete_cb = [](http_parser *parser) {
 
-                        s = "Content-Length: " + mm.size();
-                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
-                        s = "\r\n";
-                        send(h->fd, (void *)(s.c_str()), s.size(), 0);
-                        send(h->fd, (void *)(mm.c_str()), mm.size(), 0);
-                        close(h->fd);
+                            printf("on_message_complete_cb\n");
+                            http_parser_hook *h = (http_parser_hook *) (parser->data);
 
-                        printf("write end ......\n");
-                    };
-                    parser->data = hook;
 
-                    parser_init(parser, HTTP_REQUEST);
+                            std::string s = "HTTP/1.1 200 OK\r\n";
+                            send(h->fd, (void *) (s.c_str()), s.size(), 0);
+                            s = "Content-Type: text/html;charset=utf-8\r\n";
+                            send(h->fd, (void *) (s.c_str()), s.size(), 0);
+                            std::string mm = "Hello Client ......";
+                            printf("data size: %d\n", mm.size());
 
-                    http_parser_settings *settings = (http_parser_settings *)malloc(sizeof(http_parser_settings));
-                    settings->on_message_begin = message_begin_cb;
-                    settings->on_url = request_url_cb;
-                    settings->on_status = response_status_cb;
-                    settings->on_header_field = header_field_cb;
-                    settings->on_header_value = header_value_cb;
-                    settings->on_headers_complete = headers_complete_cb;
-                    settings->on_body = body_cb;
-                    settings->on_message_complete = message_complete_cb;
+                            s = "Content-Length: " + mm.size();
+                            send(h->fd, (void *) (s.c_str()), s.size(), 0);
+                            s = "\r\n";
+                            send(h->fd, (void *) (s.c_str()), s.size(), 0);
+                            send(h->fd, (void *) (mm.c_str()), mm.size(), 0);
+                            close(h->fd);
 
-                    while ((ret = recv(client_fd, (void *)buff, 1024, 0)) > 0)
-                    {
-                        int parse_ret = parse(parser, settings, reinterpret_cast<const char *>(buff), ret);
-                        printf("buf: %s,parse_ret: %d\n", buff, parse_ret);
-                        memset((void *)buff, 0, 1024);
-                    }
+                            printf("write end ......\n");
+                        };
+                        parser->data = hook;
 
-                    if (ret <= 0)
-                    {
-                        printf("recv ret: %d,error: %s\n", ret, strerror(errno));
-                        close(client_fd);
-                    }
+                        parser_init(parser, HTTP_REQUEST);
 
-                    free(hook);
-                    hook = nullptr;
+                        http_parser_settings *settings = (http_parser_settings *) malloc(sizeof(http_parser_settings));
+                        settings->on_message_begin = message_begin_cb;
+                        settings->on_url = request_url_cb;
+                        settings->on_status = response_status_cb;
+                        settings->on_header_field = header_field_cb;
+                        settings->on_header_value = header_value_cb;
+                        settings->on_headers_complete = headers_complete_cb;
+                        settings->on_body = body_cb;
+                        settings->on_message_complete = message_complete_cb;
 
-                    free(httpMsg);
-                    httpMsg = nullptr;
+                        while ((ret = recv(client_fd, (void *) buff, 1024, 0)) > 0) {
+                            int parse_ret = parse(parser, settings, reinterpret_cast<const char *>(buff), ret);
+                            printf("buf: %s,parse_ret: %d\n", buff, parse_ret);
+                            memset((void *) buff, 0, 1024);
+                        }
 
-                    free(parser);
-                    parser = nullptr;
-                    
-                    free(settings);
-                    settings = nullptr;
-                });
+                        if (ret <= 0) {
+                            printf("recv ret: %d,error: %s\n", ret, strerror(errno));
+                            close(client_fd);
+                        }
+
+                        free(hook);
+                        hook = nullptr;
+
+                        free(httpMsg);
+                        httpMsg = nullptr;
+
+                        free(parser);
+                        parser = nullptr;
+
+                        free(settings);
+                        settings = nullptr;
+                    });
 
             client_thead.detach();
         }
@@ -198,11 +184,9 @@ void HttpServer::start()
     printf("start end\n");
 }
 
-void HttpServer::stop()
-{
+void HttpServer::stop() {
     isStop = 1;
 }
 
-HttpServer::~HttpServer()
-{
+HttpServer::~HttpServer() {
 }

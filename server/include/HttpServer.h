@@ -1,7 +1,6 @@
 ﻿#pragma once
 
-class HttpServer
-{
+class HttpServer {
 private:
     int port = 0;
     int server_fd = 0;
@@ -9,7 +8,10 @@ private:
 
 public:
     HttpServer(int port);
+
     void start();
+
     void stop();
+
     ~HttpServer();
 };

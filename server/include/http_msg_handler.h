@@ -10,7 +10,7 @@ void parser_init(http_parser *parser, enum http_parser_type type);
 
 void parser_free(http_parser *parser);
 
-size_t parse(http_parser *parser, http_parser_settings *settings,const char *buf, size_t len);
+size_t parse(http_parser *parser, http_parser_settings *settings, const char *buf, size_t len);
 
 int message_begin_cb(http_parser *p);
 
