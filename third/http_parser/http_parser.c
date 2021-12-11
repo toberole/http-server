@@ -1896,7 +1896,7 @@ reexecute:
             /* If a Transfer-Encoding header field
              * is present in a request and the chunked transfer coding is not
              * the final encoding, the message body length cannot be determined
-             * reliably; the server MUST respond with the 400 (Bad Request)
+             * reliably; the server MUST respond with the 400 (Bad HttpServletRequest)
              * status code and then close the connection.
              */
             SET_ERRNO(HPE_INVALID_TRANSFER_ENCODING);

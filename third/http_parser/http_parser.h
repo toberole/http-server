@@ -159,7 +159,7 @@ enum http_status
   };
 
 
-/* Request Methods */
+/* HttpServletRequest Methods */
 #define HTTP_METHOD_MAP(XX)         \
   XX(0,  DELETE,      DELETE)       \
   XX(1,  GET,         GET)          \
