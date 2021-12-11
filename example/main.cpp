@@ -17,7 +17,7 @@ class MyHttpServlet : public com::zw::HttpServlet {
     }
 };
 
-int main(int argc, char const *argv[]) {
+int main1(int argc, char const *argv[]) {
     HttpServer *server = new HttpServer(8080);
     com::zw::HttpServlet *servlet = new MyHttpServlet();
     server->setRoute("/test/aaaa", servlet);

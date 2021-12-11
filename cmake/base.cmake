@@ -1,6 +1,4 @@
-﻿set(CMAKE_CXX_STANDARD 11)
-
-message(${CMAKE_CURRENT_LIST_DIR}/base.camke)
-
-
-
+﻿set(CMAKE_C_STANDARD                  99)
+set(CMAKE_CXX_STANDARD                11)
+set(CMAKE_CXX_STANDARD_REQUIRED       ON)
+set(CMAKE_CXX_EXTENSIONS              OFF)

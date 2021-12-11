@@ -3,17 +3,19 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
 #include <unistd.h>
-#include <cstdlib>
-#include <cstdio>
-#include <string>
-#include <cerrno>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
 #include <thread>
+#include <sstream>
 
 #include "http_parser.h"
 #include "HttpServletRequest.h"
 #include "HttpMsgHandler.h"
-#include <sstream>
+
 
 namespace {
     std::map<std::string, com::zw::HttpServlet *> g_route;

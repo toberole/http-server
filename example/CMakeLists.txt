@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 include_directories(${CMAKE_SOURCE_DIR}/server/include)
 include_directories(${CMAKE_SOURCE_DIR}/third/http_parser)
+include_directories(${CMAKE_SOURCE_DIR}/third/libuv/include())
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
 aux_source_directory(${CMAKE_CURRENT_LIST_DIR} EXAMPLE_SRC_FILES)
@@ -17,4 +18,5 @@ target_link_libraries(example
         http_server
         http_parser
         url_parser
+        uv
         )
