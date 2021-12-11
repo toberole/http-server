@@ -1,6 +1,5 @@
 ﻿#include "HttpServer.h"
 
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -8,7 +7,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <string>
-#include <netdb.h>
 #include <cerrno>
 #include <thread>
 

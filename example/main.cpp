@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+﻿#include <cstdio>
 #include "HttpServer.h"
 
 #include "HttpServlet.h"
