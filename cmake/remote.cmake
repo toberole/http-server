@@ -12,6 +12,15 @@ FetchContent_Declare(
   libuv
   GIT_REPOSITORY    ${LIBUV_GIT_URL}
   GIT_TAG           ${LIBUV_GIT_TAG}
+  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/third/libuv
 )
 
 FetchContent_MakeAvailable(libuv)
+
+ 
+# FetchContent_GetProperties(libuv)
+# if(NOT libuv_POPULATED)
+#     FetchContent_Populate(libuv)
+#     add_library(libuv INTERFACE)
+#     target_include_directories(libuv INTERFACE ${libuv_SOURCE_DIR}/include)
+# endif()
