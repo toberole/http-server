@@ -15,3 +15,5 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(libuv)
+
+include_directories()
