@@ -6,8 +6,6 @@ extern "C"
     #include <uv.h>
 }
 
- 
-
 void libuv_test1()
 {
     uv_loop_t *loop = (uv_loop_t *)malloc(sizeof(uv_loop_t));
