@@ -2,8 +2,6 @@
 
 project("example")
 
-set(CMAKE_CXX_STANDARD 11)
-
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/third/libuv)
 include_directories(${CMAKE_SOURCE_DIR}/third/http_parser)
