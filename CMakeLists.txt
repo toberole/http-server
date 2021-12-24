@@ -11,4 +11,4 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/third/url_parser)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/server)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/example)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/demo1)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/net-demo1)
