@@ -43,6 +43,11 @@ void HttpServer::start() {
         server_addr.sin_port = htons(port);
         server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
+        int on = 1; 
+        // 服务器端程序，都应该设置 SO_REUSEADDR 套接字选项，
+        // 以便服务端程序可以在极短时间内复用同一个端口启动。
+        setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on));
+
         res = bind(server_fd, (struct sockaddr *) (&server_addr), sizeof(struct sockaddr));
         if (res != 0) {
             printf("bind res: %d,error: %s\n", res, strerror(errno));
