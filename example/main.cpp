@@ -24,6 +24,6 @@ int main_main(int argc, char const *argv[]) {
     server->setRoute("/test/aaaa", servlet);
     server->start();
     printf("Hello World!\n");
-
+    STDIN_FILENO;
     return 0;
 }
