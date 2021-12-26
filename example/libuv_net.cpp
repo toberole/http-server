@@ -53,3 +53,30 @@ int main(int argc, char const *argv[])
     // return uv_run(loop, UV_RUN_DEFAULT);
     return 0;
 }
+
+
+/* 向文件描述符fd写入n字节数 */
+ssize_t writen(int fd, const void * data, size_t n)
+{
+    size_t      nleft;
+    ssize_t     nwritten;
+    const char  *ptr;
+
+    ptr = data;
+    nleft = n;
+    //如果还有数据没被拷贝完成，就一直循环
+    while (nleft > 0) {
+        if ( (nwritten = write(fd, ptr, nleft)) <= 0) {
+           /* 这里EAGAIN是非阻塞non-blocking情况下，通知我们再次调用write() */
+            if (nwritten < 0 && errno == EAGAIN)
+                nwritten = 0;      
+            else
+                return -1;         /* 出错退出 */
+        }
+
+        /* 指针增大，剩下字节数变小*/
+        nleft -= nwritten;
+        ptr   += nwritten;
+    }
+    return n;
+}
