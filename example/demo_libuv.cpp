@@ -15,7 +15,7 @@ void libuv_test1()
     free(loop);
 }
 
-int main(int argc, char const *argv[])
+int main_demo_libuv(int argc, char const *argv[])
 {
     printf("Hello libuv\n");
     libuv_test1();
