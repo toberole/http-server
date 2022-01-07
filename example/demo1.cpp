@@ -7,7 +7,7 @@ void taskFunc(void *args)
     int *p = (int *)args;
     printf("num: %d\n",*p);
 }
-int main(int argc, char const *argv[])
+int main_demo1(int argc, char const *argv[])
 {
 
     // 创建线程池
